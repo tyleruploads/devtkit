@@ -1,11 +1,73 @@
-import time
+import time  # To not get rate limited
+
+
+import json  # To save the followers table to JSON
+import csv  # To save the followers table to CSV
+
+# To get the paths to save the files at
+import tkinter as tk
+from tkinter import filedialog
+
 import requests
 
+
+def get_formats_and_paths():
+    valid_formats = {"Markdown": ".md", "CSV": ".csv", "JSON": ".json"}
+    format_names = list(valid_formats.keys())
+
+
+    prompt = "\n".join(f"{idx}. {name}" for idx, name in enumerate(valid_formats.keys()))
+
+    while True:
+        # while True loop to handle if the user makes an invalid selection
+
+        print(prompt, "\n")
+        choices_str = input("Please enter the numbers for the following formats you would like to save to: ").strip()
+
+        choices_num_list = list(choices_str)
+
+        # Check if there are any invalid choices
+        if any(not str(x).isdigit() or int(x) >= len(valid_formats) for x in choices_num_list):
+            print("\nYou have made an invalid selection. Please try again.\n")
+            continue
+        else:
+            break
+
+    choices_dict = {
+        format_names[int(choice)].lower(): valid_formats[format_names[int(choice)]]
+        for choice in choices_num_list
+    }
+    
+    print(choices_dict)
+
+
+    formats_and_paths = ask_for_paths(choices_dict)
+    print(formats_and_paths)
+    return formats_and_paths
+
+def ask_for_paths(choices_dict):
+    root = tk.Tk()
+    root.withdraw()
+
+    formats_and_paths = {}
+
+    for format_name, format_ext in choices_dict.items():
+        formats_and_paths[format_name] = filedialog.asksaveasfilename(
+            defaultextension=format_ext,
+            filetypes=[(f"{format_name.title()} files", f"*{format_ext}"), ("All files", "*.*")],
+            title=f"Select the path for the {format_name.title()} file to be saved to"
+        )
+
+    return formats_and_paths
+
+
 def ask_for_variables():
+    formats_and_paths = get_formats_and_paths()
     API_KEY = input("DEV.to API Key: ")
     per_page = int(val) if (val := input("Followers to pull in each GET request (default is 1000): ")).isdigit() else 1000
+
     
-    return {"API_KEY": API_KEY, "per_page": per_page}
+    return {"API_KEY": API_KEY, "per_page": per_page, "formats_and_paths": formats_and_paths}
 
 def get_followers(API_KEY, per_page):
     # Currently only supports up to 1000 followers
@@ -63,7 +125,7 @@ def get_followers(API_KEY, per_page):
             print(f"0 followers pulled on page {loop_count}. {len(followers_list)} total followers found.")
             return followers_list
 
-def get_profile_into(profile_id, API_KEY):
+def get_profile_info(profile_id, API_KEY):
     URL = f"https://dev.to/api/users/{profile_id}"
     
     headers = {
@@ -129,15 +191,41 @@ def make_markdown(followers_list, self_info):
     md_string += make_profiles(followers_list)
     return md_string
 
+def save_files(followers_list, formats_and_paths, self_info=None):
+    for mode, path in formats_and_paths.items():
+        if mode == "markdown":
+            with open(path, "w") as f:
+                f.write(make_markdown(followers_list, self_info))
+
+            print(f"Saved in the Markdown file format to {path}")
+        elif mode == "json":
+            with open(path, "w") as f:
+                json.dump(followers_list, f, indent=4)
+
+            print(f"Saved in the JSON file format to {path}")
+        elif mode == "csv":
+            headers = followers_list[0].keys()
+
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=headers)
+
+                writer.writeheader()
+                writer.writerows(followers_list)
+
+            print(f"Saved in the CSV file format to {path}")
+        else:
+            raise ValueError(f"The mode value of {mode} is not supported in the save_followers_table function.")
+        
+
 
 if __name__ == "__main__":
     variables = ask_for_variables()
     
     API_KEY = variables['API_KEY']
     per_page = variables['per_page']
+    formats_and_paths = variables['formats_and_paths']
     
-    self_info = get_profile_into("me", API_KEY)
+    self_info = get_profile_info("me", API_KEY)
     followers_list = get_followers(API_KEY, per_page)
     
-    md = make_markdown(followers_list, self_info)
-    print(md)
+    save_files(followers_list, formats_and_paths, self_info)
