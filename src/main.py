@@ -113,7 +113,7 @@ def get_followers(API_KEY, per_page):
                 time.sleep(1)
                 break
             else:
-                raise Exception("Error: ", response.txt)
+                raise Exception("Error: ", response.text)
 
         # Success, check if it contains users or if there are none (the last page was the highest)
         page_followers_list = response.json()
