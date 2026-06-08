@@ -13,10 +13,35 @@ import requests
 FOLLOWERS_URL = "https://dev.to/api/followers/users"
 
 
+def welcome_banner() -> None:
+    banner = """
+=================================================================
+    devto-followers2md
+Repository: https://github.com/tyleruploads/devto-followers2md
+=================================================================
+
+This script will fetch information about you and your followers on DEV.to using your API key.
+
+SECURITY NOTICE:
+    Your API key acts like a password.
+    If an untrusted individual has access to it, they can act as if they were signed into your account for many actions on DEV.to without verification.
+    This script only sends your API key directly to the DEV.to API.
+
+    Review this file here:
+        https://raw.githubusercontent.com/tyleruploads/devto-followers2md/refs/heads/main/src/main.py
+
+
+**************************************************************
+"""
+    print(banner)
+
+
 def get_formats_and_paths() -> dict[str, str]:
     valid_formats = {"Markdown": ".md", "CSV": ".csv", "JSON": ".json"}
     format_names = list(valid_formats.keys())
     num_formats = len(valid_formats)
+
+    print("--- Formats ---\n")
 
     prompt = "\n".join(
         f"{idx}. {name}"
@@ -119,7 +144,7 @@ def get_followers(api_key, per_page) -> dict[str, Any]:
 
         params["page"] = loop_count
 
-        print(f"\nPagination loop count: {loop_count}.")
+        print(f"\nPage count: {loop_count}. ")
 
         # The while true loop that will keep going until the response is 200
         while True:
@@ -148,13 +173,13 @@ def get_followers(api_key, per_page) -> dict[str, Any]:
         if len(page_followers_dicts) >= 1:
             followers_dicts += page_followers_dicts
             print(
-                f"{len(page_followers_dicts)} followers pulled on page {loop_count}."
-                f"{len(followers_dicts)} total followers have been found so far.",
+                f"{len(page_followers_dicts)} followers pulled on page {loop_count}. "
+                f"{len(followers_dicts)} total followers have been found so far. ",
             )
         else:
             print(
-                f"0 followers pulled on page {loop_count}."
-                f"{len(followers_dicts)} total followers found.\n",
+                f"0 followers pulled on page {loop_count}. "
+                f"{len(followers_dicts)} total followers found. \n",
             )
 
             # Check if the user has no followers,
@@ -287,6 +312,8 @@ def save_files(followers_list, formats_and_paths, self_info=None) -> None:
 
 
 if __name__ == "__main__":
+    welcome_banner()
+
     variables = ask_for_variables()
 
     api_key = variables["api_key"]
