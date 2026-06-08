@@ -1,6 +1,7 @@
 # --- Standard Library (STL) Imports, Alphabetical ---
 
 import csv  # To save the followers table to CSV
+import getpass  # To get the API key securely
 import json  # To save the followers table to JSON
 import os  # Assists with saving
 import time  # To not get rate limited
@@ -110,7 +111,9 @@ def ask_for_paths(choices_dict) -> dict[str, str]:
 
 def ask_for_variables() -> dict[str, Any]:
     formats_and_paths = get_formats_and_paths()
-    api_key = input("DEV.to API Key: ")
+
+    print("\nTo get an API Key, go to: DEV.to -> Settings -> Extensions, and scroll to the bottom.")
+    api_key = getpass.getpass("DEV.to API Key: ").strip()
 
     val = input("Followers to pull in each GET request (default is 1000): ")
     per_page = int(val) if val.isdigit() else 1000
