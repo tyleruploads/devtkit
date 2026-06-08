@@ -78,7 +78,7 @@ def get_formats_and_paths() -> dict[str, str]:
 
     return ask_for_paths(choices_dict)
 
-def ask_for_paths(choices_dict) -> dict[str, str]:
+def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
     formats_and_paths = {}
 
     print("--- File Save Locations ---")
@@ -127,7 +127,7 @@ def ask_for_variables() -> dict[str, Any]:
         "formats_and_paths": formats_and_paths,
     }
 
-def get_followers(api_key, per_page) -> dict[str, Any]:
+def get_followers(api_key: str, per_page: int) -> dict[str, Any]:
     headers = {
         "api-key": api_key,
         "User-Agent": "Mozilla/5.0",
@@ -199,7 +199,7 @@ def get_followers(api_key, per_page) -> dict[str, Any]:
 
             return followers_dicts
 
-def get_profile_info(profile_id, api_key) -> dict[str, Any]:
+def get_profile_info(profile_id: str | int, api_key: str) -> dict[str, Any]:
     profile_info_url = f"https://dev.to/api/users/{profile_id}"
 
     headers = {
@@ -224,7 +224,7 @@ def make_header() -> str:
 > It is not limited to Markdown files; it supports Markdown, JSON, and CSV exports
 """
 
-def make_self_profile_header(user_info) -> str:
+def make_self_profile_header(user_info: dict[str, Any]) -> str:
     return (
         f"### Profile: {user_info['name']}\n\n"
         f"| Attribute | Details |\n"
@@ -244,14 +244,14 @@ def make_self_profile_header(user_info) -> str:
         f"<img src='{user_info['profile_image']}' width='100' alt='Profile'>\n"
     )
 
-def make_profiles(followers_list) -> str:
+def make_profiles(followers_list: list[dict]) -> str:
     # Check if the user has no followers
     if len(followers_list) == 0:
         # Return a notice that there are no followers
         return (
             "> NOTICE: The user that the provided API Key"
             "belongs to does not appear to have any followers"
-            "There are no followers to make a table with",
+            "There are no followers to make a table with"
         )
 
         # End of if statement
@@ -278,14 +278,14 @@ def make_profiles(followers_list) -> str:
 
     return users_md_part
 
-def make_markdown(followers_list, self_info) -> str:
+def make_markdown(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     md_string = ""
     md_string += make_header()
     md_string += make_self_profile_header(self_info)
     md_string += make_profiles(followers_list)
     return md_string
 
-def save_files(followers_list, formats_and_paths, self_info=None) -> None:
+def save_files(followers_list: list[dict], formats_and_paths: list[dict], self_info: dict[str, Any]=None) -> None:
     for mode, path in formats_and_paths.items():
         if mode == "markdown":
             with open(path, "w") as f:
