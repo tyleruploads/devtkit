@@ -189,7 +189,7 @@ def get_followers(api_key: str, per_page: int) -> dict[str, Any]:
 
             # Check if the user has no followers,
             # which would be true if this is the first page.
-            if (loop_count == 0):
+            if (loop_count == 1):
                 # Tell the user there are no followers
                 # and how that will be reflected in the output
                 print(
