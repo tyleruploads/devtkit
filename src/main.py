@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # --- Standard Library (STL) Imports, Alphabetical ---
 
 import csv  # To save the followers table to CSV
@@ -229,19 +230,19 @@ def make_self_profile_header(user_info: dict[str, Any]) -> str:
         f"### Profile: {user_info['name']}\n\n"
         f"| Attribute | Details |\n"
         f"| :--- | :--- |\n"
-        f"| Name | {user_info['name']} |\n"
+        f"| **Name** | {user_info['name']} |\n"
 
-        f"| Username | [{user_info['username']}]"
-        "(https://dev.to/{user_info['username']}) |\n"
+        f"| **Username** | [{user_info['username']}]"
+        f"(https://dev.to/{user_info['username']}) |\n"
 
         f"| Summary | {user_info['summary']} |\n"
         f"| Location | {user_info['location']} |\n"
         f"| Joined At | {user_info['joined_at']} |\n"
 
         f"| User ID | [{user_info['id']}]"
-        "(https://dev.to/api/users/{user_info['id']}) |\n"
+        f"(https://dev.to/api/users/{user_info['id']}) |\n"
 
-        f"<img src='{user_info['profile_image']}' width='100' alt='Profile'>\n"
+        f"| <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
     )
 
 def make_profiles(followers_list: list[dict]) -> str:
@@ -271,7 +272,7 @@ def make_profiles(followers_list: list[dict]) -> str:
         followed_at = follower["created_at"]
 
         user_md_part = (
-            f"{idx} | [@{username}](https://dev.to/{username}) | {name} |"
+            f"| {idx} | [@{username}](https://dev.to/{username}) | {name} |"
             f"{followed_at} | [{user_id}](https://dev.to/api/users/{user_id}) |  \n"
         )
         users_md_part += user_md_part
