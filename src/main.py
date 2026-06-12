@@ -88,7 +88,7 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
             default_name = f"followers{format_ext}"
             path = input(
                 f"Please enter save path for {format_name.title()}"
-                f"(Default: {default_name}): ",
+                f" (Default: {default_name}): ",
             ).strip()
 
             # Use default if user did not enter path
@@ -315,8 +315,7 @@ def save_files(followers_list: list[dict], formats_and_paths: list[dict], self_i
             )
 
 
-
-if __name__ == "__main__":
+def main() -> None:
     welcome_banner()
 
     variables = ask_for_variables()
@@ -329,3 +328,6 @@ if __name__ == "__main__":
     followers_list = get_followers(api_key, per_page)
 
     save_files(followers_list, formats_and_paths, self_info)
+
+if __name__ == "__main__":
+    main()
