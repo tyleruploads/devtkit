@@ -4,7 +4,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/tyleruploads/devto-followers2md)](https://github.com/tyleruploads/devto-followers2md/issues)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 
-DEV.to Followers to Markdown (devto-followers2md) is an open-source Python program that exports information about a users followers on DEV.to in a beautiful Markdown file or complete CSV or JSON file.
+DEV.to Followers to Markdown (devto-followers2md) is an open-source Python program that exports information about a user's followers on DEV.to in a beautiful Markdown file or complete CSV or JSON file.
 
 ## Installation
 Currently, the way to run the script is to clone the repository and run the file located at src/main.py
