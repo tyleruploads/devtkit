@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "devto-followers2md"
+dynamic = ["version"]
+description = "An open-source Python program that exports information about a user's followers on DEV.to in a beautiful Markdown file or complete CSV or JSON file."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+	{name = "tyleruploads"}
+]
+keywords = ["python", "markdown", "pagination", "cli", "open-source", "security", "json", "utility", "automation", "csv", "rest-api", "scripting", "python-script", "rate-limiting", "developer-tools", "data-export", "api-integration", "devto", "dev-to", "forem"]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: MIT License",
+	"Operating System :: OS Independent"
+]
+dependencies = [
+	"requests>=2.31.0"
+]
+
+[project.scripts]
+devto-followers2md = "devto_followers2md.main:main"
+
+[tool.hatch.version]
+path = "src/main.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = "devto_followers2md"
