@@ -11,14 +11,16 @@ from typing import Any  # To help return hints
 # --- Non STL Imports, Alphabetical ---
 import requests
 
+__version__ = "0.1.0"
+
 # Global configuration
 FOLLOWERS_URL = "https://dev.to/api/followers/users"
 
 
 def welcome_banner() -> None:
-    banner = """
+    banner = f"""
 =================================================================
-    devto-followers2md
+    devto-followers2md (v{__version__})
 Repository: https://github.com/tyleruploads/devto-followers2md
 =================================================================
 
