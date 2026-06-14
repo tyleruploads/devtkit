@@ -12,7 +12,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/project/devto-followers2md
+      url: https://pypi.org/project/devtkit
 
     permissions:
       id-token: write

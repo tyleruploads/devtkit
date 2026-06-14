@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "devto-followers2md"
+name = "devtkit"
 dynamic = ["version"]
-description = "An open-source Python program that exports information about a user's followers on DEV.to in a beautiful Markdown file or complete CSV or JSON file."
+description = "An open-source DEV tool kit written in Python that lets users export information gathered from the DEV.to API"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.scripts]
-devto-followers2md = "devto_followers2md.main:main"
+devtkit = "devtkit.main:main"
 
 [tool.hatch.version]
 path = "src/main.py"
@@ -32,4 +32,4 @@ path = "src/main.py"
 packages = ["src"]
 
 [tool.hatch.build.targets.wheel.sources]
-"src" = "devto_followers2md"
+"src" = "devtkit"

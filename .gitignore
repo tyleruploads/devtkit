@@ -248,3 +248,12 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,linux,windows,macos
+
+
+# Custom additions
+
+# Editor swap and temporary files
+*.swp
+*.swo
+*.tmp
+.pyproject.toml.sw*
