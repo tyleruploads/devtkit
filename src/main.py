@@ -244,7 +244,7 @@ def make_self_profile_header(user_info: dict[str, Any]) -> str:
         f"| User ID | [{user_info['id']}]"
         f"(https://dev.to/api/users/{user_info['id']}) |\n"
 
-        f"| <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
+        f"| **Profile Picture** | <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
     )
 
 def make_profiles(followers_list: list[dict]) -> str:
@@ -288,7 +288,7 @@ def make_markdown(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     md_string += make_profiles(followers_list)
     return md_string
 
-def save_files(followers_list: list[dict], formats_and_paths: list[dict], self_info: dict[str, Any]=None) -> None:
+def save_files(followers_list: list[dict], formats_and_paths: dict[str, str], self_info: dict[str, Any]=None) -> None:
     for mode, path in formats_and_paths.items():
         if mode == "markdown":
             with open(path, "w") as f:
@@ -328,6 +328,11 @@ def main() -> None:
 
     self_info = get_profile_info("me", api_key)
     followers_list = get_followers(api_key, per_page)
+
+    # Exit if there are no followers
+    if not followers_list:
+        print("\n[!] Exiting: No followers to export.")
+        return
 
     save_files(followers_list, formats_and_paths, self_info)
 
