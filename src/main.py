@@ -161,7 +161,7 @@ def get_followers(api_key: str, per_page: int) -> dict[str, Any]:
             if response.status_code == 429:
                 # HTTP 409 Too Many Requests
                 wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-                print(f"HTTP 409 Too Many Requests. Sleeping for {wait_time}s")
+                print(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
                 time.sleep(wait_time)
                 continue
             if response.status_code == 200:

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "devtkit"
 dynamic = ["version"]
-description = "An open-source DEV tool kit written in Python that lets users export information gathered from the DEV.to API"
+description = "An open-source DEV Community toolkit written in Python that lets users export information gathered from the DEV.to API"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
