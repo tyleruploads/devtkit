@@ -1,6 +1,6 @@
 # devtkit
 
-[![GitHub license](https://img.shields.io/github/license/tyleruploads/devtkit)](https://github.com/tyleruploads/devtkit/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/tyleruploads/devtkit/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/tyleruploads/devtkit)](https://github.com/tyleruploads/devtkit/issues)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 
