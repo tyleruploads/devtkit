@@ -11,7 +11,7 @@ from typing import Any  # To help return hints
 # --- Non STL Imports, Alphabetical ---
 import requests
 
-__version__ = "0.1.1"
+__version__ = "0.1.2.dev0"
 
 # Global configuration
 FOLLOWERS_URL = "https://dev.to/api/followers/users"
