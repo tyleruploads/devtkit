@@ -3,6 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/tyleruploads/devtkit/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/tyleruploads/devtkit)](https://github.com/tyleruploads/devtkit/issues)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![PyPI - Version](https://img.shields.io/pypi/v/devtkit)](https://pypi.org/project/devtkit/)
 
 [DEV Tool Kit (devtkit)](https://github.com/tyleruploads/devtkit) is an open-source DEV Community toolkit written in Python that lets users export information gathered from the DEV.to API.
 
