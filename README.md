@@ -123,6 +123,10 @@ Contributions are what make open-source projects important. All contributions ar
 * **Found a bug or issue**: Open an Issue and show the output of the script, the steps to reproduce it, and as much information as possible
 * **Have an idea**: Open an Issue and explain your idea as much as possible, why you think it would be a good addition to the project, and any other important information.
 
+## Security
+
+For information on reporting security vulnerabilities in devtkit, see [SECURITY.md](SECURITY.md)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
