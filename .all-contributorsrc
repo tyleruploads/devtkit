@@ -1,11 +1,26 @@
 {
-	"projectName": "devtkit",
-	"projectOwner": "tyleruploads",
-	"repoType": "github",
-	"repoHost": "https://github.com",
-	"files": ["CONTRIBUTORS.md"],
-	"imageSize": 100,
-	"commit": true,
-	"contributorsPerLine": 7,
-	"contributors": []
+  "projectName": "devtkit",
+  "projectOwner": "tyleruploads",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "koteshyelamati",
+      "name": "Kotesh Kumar Yelamati",
+      "avatar_url": "https://avatars.githubusercontent.com/u/196373335?v=4",
+      "profile": "https://github.com/koteshyelamati",
+      "contributions": [
+        "security",
+        "doc"
+      ]
+    }
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular"
 }
