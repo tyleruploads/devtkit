@@ -11,6 +11,7 @@ If you want to be added to this list, it is not too hard! If you contribute to t
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/koteshyelamati"><img src="https://avatars.githubusercontent.com/u/196373335?v=4?s=100" width="100px;" alt="Kotesh Kumar Yelamati"/><br /><sub><b>Kotesh Kumar Yelamati</b></sub></a><br /><a href="#security-koteshyelamati" title="Security">🛡️</a> <a href="https://github.com/tyleruploads/devtkit/commits?author=koteshyelamati" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://arjunavtani.com"><img src="https://avatars.githubusercontent.com/u/190979964?v=4?s=100" width="100px;" alt="ded-furby"/><br /><sub><b>ded-furby</b></sub></a><br /><a href="#security-ded-furby" title="Security">🛡️</a> <a href="https://github.com/tyleruploads/devtkit/commits?author=ded-furby" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
