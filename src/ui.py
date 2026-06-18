@@ -7,6 +7,7 @@ This file contains functions that are in the user interface level (ex: getting p
 
 import getpass  # To get the API key securely
 import os  # Assists with saving
+import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
 
 def welcome_banner(__version__) -> None:
@@ -107,16 +108,39 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
 
     return formats_and_paths
 
+def get_api_key():
+    # The purpose of this function is to ensure a user does not accidentally enter something other than their API Key
 
+    while True:
+        print("\nTo get an API Key, go to: DEV.to -> Settings -> Extensions")
+        api_key_input = getpass.getpass("DEV.to API Key: ").strip()
+
+        # Verify they didn't just enter nothing
+        # If they enter nothing, this will repeat
+
+        if not api_key_input:
+            print("You did not enter anything. Please try again.")
+            continue
+
+        pattern = r"^[a-zA-Z0-9]+$"
+
+        # Verify it matches the pattern
+        # If it does not, this will repeat
+
+        if not re.match(pattern, api_key_input):
+            print("DEV API Keys only contain alphanumeric characters. Please try again.")
+            continue
+
+        return api_key_input
+
+                   
 def ask_for_variables() -> dict[str, Any]:
     formats_and_paths = get_formats_and_paths()
-
-    print("\nTo get an API Key, go to: DEV.to -> Settings -> Extensions")
-    api_key = getpass.getpass("DEV.to API Key: ").strip()
-
+    
     val = input("Followers to pull in each GET request (default is 1000): ")
     per_page = int(val) if val.isdigit() else 1000
 
+    api_key = get_api_key()
 
     return {
         "api_key": api_key,
