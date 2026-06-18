@@ -4,7 +4,7 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
-    "CONTRIBUTORS.md"
+    "CONTRIBUTING.md"
   ],
   "imageSize": 100,
   "commit": true,
@@ -21,6 +21,21 @@
       ]
     },
     {
+       "login": "tyleruploads",
+       "name": "Tyler N",
+       "avatar_url": "https://avatars.githubusercontent.com/u/242097429?v=4",
+       "profile": "https://github.com/tyleruploads",
+       "contributions": [
+         "projectManagement",
+         "ideas",
+         "code",
+         "doc",
+         "blog",
+         "design",
+         "infra"
+       ]
+     }
+    {
       "login": "ded-furby",
       "name": "ded-furby",
       "avatar_url": "https://avatars.githubusercontent.com/u/190979964?v=4",
@@ -28,21 +43,6 @@
       "contributions": [
         "security",
         "doc"
-      ]
-    },
-    {
-      "login": "tyleruploads",
-      "name": "Tyler N",
-      "avatar_url": "https://avatars.githubusercontent.com/u/242097429?v=4",
-      "profile": "https://github.com/tyleruploads",
-      "contributions": [
-        "projectManagement",
-        "ideas",
-        "code",
-        "doc",
-        "blog",
-        "design",
-        "infra"
       ]
     }
   ],
