@@ -12,6 +12,11 @@ from datetime import datetime
 from typing import Any  # To help return hints
 
 def md_header() -> str:
+    """Makes the header for a Markdown output
+
+    Returns:
+      str: The Markdown string for the header
+    """
     # Makes the header for the top of the markdown file
     # This does not require any variables passed
     return """
@@ -20,7 +25,16 @@ def md_header() -> str:
 > It is not limited to Markdown files; it supports Markdown, JSON, and CSV exports
 """
 
-def md_profile_header(user_info: dict[str, Any]) -> str:
+def md_profile_table(user_info: dict[str, Any]) -> str:
+    """Makes the profile table for the users account in a Markdown output
+
+    Args:
+      user_info: dict[str: 
+      Any]: The information about the user to be put in the table
+
+    Returns:
+          str: The Markdown string for the profile table
+    """
     return (
         f"### Profile: {user_info['name']}\n\n"
         f"| Attribute | Details |\n"
@@ -41,6 +55,14 @@ def md_profile_header(user_info: dict[str, Any]) -> str:
     )
 
 def md_info_block(followers_list: list[dict]) -> str:
+    """Makes the info block in a Markdown output
+
+    Args:
+      followers_list: list[dict]: A list of dictionaries containing information about the users followers
+
+    Returns:
+      str: The Markdown string for the information block
+    """
     # This makes a block to put in the Markdown output
     # This block contains information such as the date and follower count
 
@@ -57,7 +79,15 @@ def md_info_block(followers_list: list[dict]) -> str:
         f"> {follower_count} followers were found  \n\n"
     )
 
-def md_profiles_table(followers_list: list[dict]) -> str:
+def md_followers_table(followers_list: list[dict]) -> str:
+    """Makes the table of all the users followers in a Markdown output
+
+    Args:
+      followers_list: list[dict]: A list of dictionaries containing information about the users followers
+
+    Returns:
+      str: The Markdown string for the followers table
+    """
     # Check if the user has no followers
     if len(followers_list) == 0:
         # Return a notice that there are no followers
@@ -92,14 +122,33 @@ def md_profiles_table(followers_list: list[dict]) -> str:
     return users_md_part
 
 def md_make(followers_list: list[dict], self_info: dict[str, Any]) -> str:
+    """Makes a Markdown string
+
+    Args:
+      followers_list: list[dict]: A list of dictionaries containing information about the users followers
+      self_info: dict[str: 
+      Any]: A dictionary containing information about the user
+
+    Returns:
+      str: The entire Markdown string
+    """
     md_string = ""
     md_string += md_header()
-    md_string += md_profile_header(self_info)
+    md_string += md_profile_table(self_info)
     md_string += md_info_block(followers_list)
-    md_string += md_profiles_table(followers_list)
+    md_string += md_followers_table(followers_list)
     return md_string
 
 def save_files(followers_list: list[dict], formats_and_paths: dict[str, str], self_info: dict[str, Any]=None) -> None:
+    """Saves files at specified locations in Markdown, JSON, or CSV outputs
+
+    Args:
+      followers_list: list[dict]: A list of dictionaries containing information about the users followers
+      formats_and_paths: dict[str: 
+      str]: A list of file formats and its associated save path
+      self_info: dict[str: 
+      Any]:  (Default value = None): A dictionary of information about the user
+    """
     for mode, path in formats_and_paths.items():
         if mode == "markdown":
             with open(path, "w") as f:

@@ -11,9 +11,14 @@ import re  # To help make sure users do not enter something other than their API
 from typing import Any  # To help return hints
 
 def welcome_banner(__version__) -> None:
+    """Prints the welcome banner and security notice
+
+    Args:
+      version (str): The current version of the application
+    """
     banner = f"""
 =================================================================
-    devtkit (v{__version__})
+devtkit (v{__version__})
 Repository: https://github.com/tyleruploads/devtkit
 =================================================================
 
@@ -21,20 +26,30 @@ This script will fetch information about you and your followers on DEV.to
 using your API key.
 
 SECURITY NOTICE:
-    Your API key acts like a password.
-    If an untrusted individual has access to it,
-    they have compromised your account.
+Your API key acts like a password.
+If an untrusted individual has access to it,
+they have compromised your account.
 
-    Review this file here:
-        https://raw.githubusercontent.com/tyleruploads/devtkit/refs/heads/main/src/main.py
+Review this file here:
+    https://raw.githubusercontent.com/tyleruploads/devtkit/refs/heads/main/src/main.py
 
 
 **************************************************************
 """
+
     print(banner)
 
 
-def get_numeric_choices(prompt: str, choices_num: int):
+def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
+    """Prompts the user for a sequence of numbers after displaying and validates their choices
+
+    Args:
+      prompt: str: The prompt to tell the users that should contain their available choices
+      choices_num: int: The amount of choices available to the user
+
+    Returns:
+      list[int]: A list of integers that the user selected
+    """
     while True:
         print(prompt, "\n")
         choices_str = input(
@@ -52,9 +67,14 @@ def get_numeric_choices(prompt: str, choices_num: int):
         ):
             print("\nYou have made an invalid selection. Please try again.\n")
             continue
-        return choices_num_list
+        return [int(x) for x in choices_num_list]
 
 def get_formats_and_paths() -> dict[str, str]:
+    """Retrieves file formats and save paths from the user
+
+    Returns:
+      dict[str, str]: A dictionary of the file formats and associated save paths
+    """
     valid_formats = {"Markdown": ".md", "CSV": ".csv", "JSON": ".json"}
     format_names = list(valid_formats.keys())
     num_formats = len(valid_formats)
@@ -69,7 +89,7 @@ def get_formats_and_paths() -> dict[str, str]:
     choices_num_list = get_numeric_choices(prompt, num_formats)        
 
     choices_dict = {
-        format_names[int(choice)].lower(): valid_formats[format_names[int(choice)]]
+        format_names[choice].lower(): valid_formats[format_names[int(choice)]]
         for choice in choices_num_list
     }
 
@@ -77,6 +97,15 @@ def get_formats_and_paths() -> dict[str, str]:
 
 
 def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
+    """
+
+    Args:
+      choices_dict: dict[str: 
+      Any]: A dictionary with keys of the name of the format and values of that formats extension
+
+    Returns:
+      dict[str, str]: A dictionary with keys of the format name and paths of its path
+    """
     formats_and_paths = {}
 
     print("--- File Save Locations ---")
@@ -108,7 +137,13 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
 
     return formats_and_paths
 
-def get_api_key():
+def get_api_key() -> str:
+    """Gets the users DEV API Key using the getpass module then ensures it only contains alphanumeric characters
+
+    Returns:
+      str: The users DEV API Key
+
+    """
     # The purpose of this function is to ensure a user does not accidentally enter something other than their API Key
 
     while True:
@@ -135,6 +170,11 @@ def get_api_key():
 
                    
 def ask_for_variables() -> dict[str, Any]:
+    """Asks the users for important variables that will determine the rest of the script
+
+    Returns:
+      dict[str, Any]: A dictionary with keys of the setting name and values of the users choice
+    """
     formats_and_paths = get_formats_and_paths()
     
     val = input("Followers to pull in each GET request (default is 1000): ")

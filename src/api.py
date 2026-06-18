@@ -11,7 +11,19 @@ import requests
 
 FOLLOWERS_URL = "https://dev.to/api/followers/users"# Global configuration
 
-def get_followers(api_key: str, per_page: int) -> dict[str, Any]:
+def get_followers(api_key: str, per_page: int) -> list[dict[str, Any]]:
+    """Retrieves all of a users followers from the DEV API throughout multiple pages if necessary
+
+    Args:
+      api_key: str: The authentication key for the DEV API
+      per_page: int: The amount of followers to collect per page (the maximum is 1,000)
+
+    Returns:
+      list[dict[str, Any]]: A list of dictionaries containing information about the users followers
+
+    Raises:
+      Exception: If the API responds with a non-200 HTTP status code (excluding 429)
+    """
     headers = {
         "api-key": api_key,
         "User-Agent": "Mozilla/5.0",
@@ -85,6 +97,15 @@ def get_followers(api_key: str, per_page: int) -> dict[str, Any]:
 
 
 def get_profile_info(profile_id: str | int, api_key: str) -> dict[str, Any]:
+    """Retreieves information about the users profile from the DEV API
+
+    Args:
+      profile_id: str | int: 
+      api_key: str: 
+
+    Returns:
+      dict[str, Any]: A dictionary containing information about the users profile
+    """
     profile_info_url = f"https://dev.to/api/users/{profile_id}"
 
     headers = {

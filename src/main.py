@@ -12,6 +12,10 @@ from exporters import save_files
 __version__ = "0.1.2.dev0"
 
 def main() -> None:
+    """Orchestrates the follower export process
+
+    This function calls many other functions in order to export the users followers in the DEV community
+    """
     welcome_banner(__version__)
 
     variables = ask_for_variables()
