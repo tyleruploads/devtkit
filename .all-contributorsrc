@@ -29,6 +29,21 @@
         "security",
         "doc"
       ]
+    },
+    {
+      "login": "tyleruploads",
+      "name": "Tyler N",
+      "avatar_url": "https://avatars.githubusercontent.com/u/242097429?v=4",
+      "profile": "https://github.com/tyleruploads",
+      "contributions": [
+        "projectManagement",
+        "ideas",
+        "code",
+        "doc",
+        "blog",
+        "design",
+        "infra"
+      ]
     }
   ],
   "commitType": "docs",
