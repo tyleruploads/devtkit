@@ -6,6 +6,7 @@ import getpass  # To get the API key securely
 import json  # To save the followers table to JSON
 import os  # Assists with saving
 import time  # To not get rate limited
+from datetime import datetime  # To get the date to put in Markdown outputs
 from typing import Any  # To help return hints
 
 # --- Non STL Imports, Alphabetical ---
@@ -247,6 +248,23 @@ def make_self_profile_header(user_info: dict[str, Any]) -> str:
         f"| **Profile Picture** | <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
     )
 
+def make_info_block(followers_list: list[dict]) -> str:
+    # This makes a block to put in the Markdown output
+    # This block contains information such as the date and follower count
+
+    # Get the time
+    now = datetime.now()
+    # Example: Thursday, June 18, 2026
+    formatted_date = now.strftime("%A, %B %d, %Y")
+
+    # Get follower count
+    follower_count = len(followers_list)
+
+    return (
+        f"> This was generated on {formatted_date}  \n"
+        f"> {follower_count} followers were found  \n\n"
+    )
+
 def make_profiles(followers_list: list[dict]) -> str:
     # Check if the user has no followers
     if len(followers_list) == 0:
@@ -285,6 +303,7 @@ def make_markdown(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     md_string = ""
     md_string += make_header()
     md_string += make_self_profile_header(self_info)
+    md_string += make_info_block(followers_list)
     md_string += make_profiles(followers_list)
     return md_string
 
