@@ -11,7 +11,7 @@ import json  # To save the followers table to JSON
 from datetime import datetime
 from typing import Any  # To help return hints
 
-def make_header() -> str:
+def md_header() -> str:
     # Makes the header for the top of the markdown file
     # This does not require any variables passed
     return """
@@ -20,7 +20,7 @@ def make_header() -> str:
 > It is not limited to Markdown files; it supports Markdown, JSON, and CSV exports
 """
 
-def make_self_profile_header(user_info: dict[str, Any]) -> str:
+def md_profile_header(user_info: dict[str, Any]) -> str:
     return (
         f"### Profile: {user_info['name']}\n\n"
         f"| Attribute | Details |\n"
@@ -40,7 +40,7 @@ def make_self_profile_header(user_info: dict[str, Any]) -> str:
         f"| **Profile Picture** | <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
     )
 
-def make_info_block(followers_list: list[dict]) -> str:
+def md_info_block(followers_list: list[dict]) -> str:
     # This makes a block to put in the Markdown output
     # This block contains information such as the date and follower count
 
@@ -57,7 +57,7 @@ def make_info_block(followers_list: list[dict]) -> str:
         f"> {follower_count} followers were found  \n\n"
     )
 
-def make_profiles(followers_list: list[dict]) -> str:
+def md_profiles_table(followers_list: list[dict]) -> str:
     # Check if the user has no followers
     if len(followers_list) == 0:
         # Return a notice that there are no followers
@@ -91,19 +91,19 @@ def make_profiles(followers_list: list[dict]) -> str:
 
     return users_md_part
 
-def make_markdown(followers_list: list[dict], self_info: dict[str, Any]) -> str:
+def md_make(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     md_string = ""
-    md_string += make_header()
-    md_string += make_self_profile_header(self_info)
-    md_string += make_info_block(followers_list)
-    md_string += make_profiles(followers_list)
+    md_string += md_header()
+    md_string += md_profile_header(self_info)
+    md_string += md_info_block(followers_list)
+    md_string += md_profiles_table(followers_list)
     return md_string
 
 def save_files(followers_list: list[dict], formats_and_paths: dict[str, str], self_info: dict[str, Any]=None) -> None:
     for mode, path in formats_and_paths.items():
         if mode == "markdown":
             with open(path, "w") as f:
-                f.write(make_markdown(followers_list, self_info))
+                f.write(md_make(followers_list, self_info))
 
             print(f"Saved in the Markdown file format to {path}")
         elif mode == "json":

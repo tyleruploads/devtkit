@@ -7,7 +7,7 @@ from typing import Any  # To help return hints
 # --- Local Imports, Alphabetical ---
 from api import get_followers, get_profile_info
 from ui import welcome_banner, get_formats_and_paths, ask_for_paths, ask_for_variables
-from exporters import make_header, make_self_profile_header, make_info_block, make_profiles, make_markdown, save_files
+from exporters import save_files
 
 __version__ = "0.1.2.dev0"
 
