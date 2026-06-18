@@ -33,6 +33,26 @@ SECURITY NOTICE:
     print(banner)
 
 
+def get_numeric_choices(prompt: str, choices_num: int):
+    while True:
+        print(prompt, "\n")
+        choices_str = input(
+            "Please enter the numbers for the "
+            "following options you would like to select: ",
+        ).strip()
+
+        choices_num_list = list(choices_str)
+
+        # Check if there are any invalid choices
+        if any(
+            not str(x).isdigit()
+            or int(x) >= choices_num
+            for x in choices_num_list
+        ):
+            print("\nYou have made an invalid selection. Please try again.\n")
+            continue
+        return choices_num_list
+
 def get_formats_and_paths() -> dict[str, str]:
     valid_formats = {"Markdown": ".md", "CSV": ".csv", "JSON": ".json"}
     format_names = list(valid_formats.keys())
@@ -45,26 +65,7 @@ def get_formats_and_paths() -> dict[str, str]:
         for idx, name in enumerate(valid_formats)
     )
 
-    while True:
-        # while True loop to handle if the user makes an invalid selection
-
-        print(prompt, "\n")
-        choices_str = input(
-            "Please enter the numbers for the "
-            "following formats you would like to save to: ",
-        ).strip()
-
-        choices_num_list = list(choices_str)
-
-        # Check if there are any invalid choices
-        if any(
-            not str(x).isdigit()
-            or int(x) >= num_formats
-            for x in choices_num_list
-        ):
-            print("\nYou have made an invalid selection. Please try again.\n")
-            continue
-        break
+    choices_num_list = get_numeric_choices(prompt, num_formats)        
 
     choices_dict = {
         format_names[int(choice)].lower(): valid_formats[format_names[int(choice)]]
