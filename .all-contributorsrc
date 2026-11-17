@@ -21,20 +21,20 @@
       ]
     },
     {
-       "login": "tyleruploads",
-       "name": "Tyler N",
-       "avatar_url": "https://avatars.githubusercontent.com/u/242097429?v=4",
-       "profile": "https://github.com/tyleruploads",
-       "contributions": [
-         "projectManagement",
-         "ideas",
-         "code",
-         "doc",
-         "blog",
-         "design",
-         "infra"
-       ]
-     }
+      "login": "tyleruploads",
+      "name": "Tyler N",
+      "avatar_url": "https://avatars.githubusercontent.com/u/242097429?v=4",
+      "profile": "https://github.com/tyleruploads",
+      "contributions": [
+        "projectManagement",
+        "ideas",
+        "code",
+        "doc",
+        "blog",
+        "design",
+        "infra"
+      ]
+    },
     {
       "login": "ded-furby",
       "name": "ded-furby",
@@ -42,6 +42,15 @@
       "profile": "http://arjunavtani.com",
       "contributions": [
         "security",
+        "doc"
+      ]
+    },
+    {
+      "login": "siyametj",
+      "name": "siyam-bro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/216177420?v=4",
+      "profile": "https://github.com/siyametj",
+      "contributions": [
         "doc"
       ]
     }
