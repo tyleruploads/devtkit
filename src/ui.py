@@ -9,6 +9,7 @@ import getpass  # To get the API key securely
 import os  # Assists with saving
 import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
+from api import validate_username
 
 
 def welcome_banner(__version__) -> None:
@@ -29,7 +30,7 @@ using your API key.
 SECURITY NOTICE:
 Your API key acts like a password.
 If an untrusted individual has access to it,
-they have compromised your account.
+they havecompromised your account.
 
 Review this file here:
     https://raw.githubusercontent.com/tyleruploads/devtkit/refs/heads/main/src/main.py
@@ -39,6 +40,32 @@ Review this file here:
 """
 
     print(banner)
+
+
+def get_top_level_choice() -> str:
+    """Prompts the user if they would like to export followers or articles
+
+    Returns:
+      str: The choice the user makes
+    """
+
+    choices = ["Export Followers", "Export Articles"]
+
+    print("----- Options -----")
+    print("\n".join(f"{idx}. {name}" for idx, name in enumerate(choices)))
+    while True:
+        choice = input(
+            "Please enter the number for the option you would like to select: "
+        ).strip()
+
+        if len(choice) > 1:
+            print("Please only select one choice. Please try again.\n")
+            continue
+
+        if not str(choice).isdigit() or int(choice) > 2:
+            print("You have made an invalid selection. Please try again.\n")
+            continue
+        return choices[int(choice)]
 
 
 def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
@@ -106,7 +133,7 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
     print("--- File Save Locations ---")
     for format_name, format_ext in choices_dict.items():
         while True:
-            default_name = f"followers{format_ext}"
+            default_name = f"devtkit{format_ext}"
             path = input(
                 f"Please enter save path for {format_name.title()}"
                 f" (Default: {default_name}): ",
@@ -167,8 +194,8 @@ def get_api_key() -> str:
         return api_key_input
 
 
-def ask_for_variables() -> dict[str, Any]:
-    """Asks the users for important variables that will determine the rest of the script
+def ask_for_variables_for_followers_path() -> dict[str, Any]:
+    """Asks the users for important variables involving the follower export path that will determine the rest of the script
 
     Returns:
       dict[str, Any]: A dictionary with keys of the setting name and values of the users choice
@@ -185,3 +212,25 @@ def ask_for_variables() -> dict[str, Any]:
         "per_page": per_page,
         "formats_and_paths": formats_and_paths,
     }
+
+
+def ask_for_username() -> str:
+    """Asks the user for the username of the account whose articles will be exported
+
+    Returns:
+      str: The username
+    """
+
+    while True:
+        username = input("Username of account to export articles of: ").strip()
+
+        if not username:
+            print("Please enter a username.\n")
+            continue
+
+        valid = validate_username(username)
+
+        if not valid:
+            continue
+
+        return username

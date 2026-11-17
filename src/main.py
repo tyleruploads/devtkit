@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 # --- Standard Library (STL) Imports, Alphabetical ---
 
-import time  # To not get rate limited
-from typing import Any  # To help return hints
 
 # --- Local Imports, Alphabetical ---
-from api import get_followers, get_profile_info
-from ui import welcome_banner, get_formats_and_paths, ask_for_paths, ask_for_variables
+from api import get_followers, get_profile_info, get_all_articles_contents
+from ui import (
+    welcome_banner,
+    ask_for_variables_for_followers_path,
+    get_top_level_choice,
+    ask_for_username,
+    get_formats_and_paths,
+)
 from exporters import save_files
 
 __version__ = "0.1.2.dev0"
@@ -19,21 +23,39 @@ def main() -> None:
     """
     welcome_banner(__version__)
 
-    variables = ask_for_variables()
+    top_level_choice = get_top_level_choice()
 
-    api_key = variables["api_key"]
-    per_page = variables["per_page"]
-    formats_and_paths = variables["formats_and_paths"]
+    if top_level_choice == "Export Followers":
+        variables = ask_for_variables_for_followers_path()
 
-    self_info = get_profile_info("me", api_key)
-    followers_list = get_followers(api_key, per_page)
+        api_key = variables["api_key"]
+        per_page = variables["per_page"]
+        formats_and_paths = variables["formats_and_paths"]
 
-    # Exit if there are no followers
-    if not followers_list:
-        print("\n[!] Exiting: No followers to export.")
-        return
+        self_info = get_profile_info(api_key, "API Key")
+        followers_list = get_followers(api_key, per_page)
 
-    save_files(followers_list, formats_and_paths, self_info)
+        # Exit if there are no followers
+        if not followers_list:
+            print("\n[!] Exiting: No followers to export.")
+            return
+
+        save_files(followers_list, formats_and_paths, self_info)
+
+    elif top_level_choice == "Export Articles":
+        username = ask_for_username()
+
+        self_info = get_profile_info(username)
+        articles = get_all_articles_contents(username)
+
+        formats_and_paths = get_formats_and_paths()
+
+        save_files(articles, formats_and_paths, self_info, "Articles")
+
+    else:
+        raise Exception(
+            f"Error: Choice returned by get_top_level_choice(), {top_level_choice}, is invalid."
+        )
 
 
 if __name__ == "__main__":
