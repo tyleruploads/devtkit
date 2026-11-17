@@ -10,6 +10,7 @@ import os  # Assists with saving
 import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
 
+
 def welcome_banner(__version__) -> None:
     """Prints the welcome banner and security notice
 
@@ -60,14 +61,11 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
         choices_num_list = list(choices_str)
 
         # Check if there are any invalid choices
-        if any(
-            not str(x).isdigit()
-            or int(x) >= choices_num
-            for x in choices_num_list
-        ):
+        if any(not str(x).isdigit() or int(x) >= choices_num for x in choices_num_list):
             print("\nYou have made an invalid selection. Please try again.\n")
             continue
         return [int(x) for x in choices_num_list]
+
 
 def get_formats_and_paths() -> dict[str, str]:
     """Retrieves file formats and save paths from the user
@@ -81,12 +79,9 @@ def get_formats_and_paths() -> dict[str, str]:
 
     print("--- Formats ---\n")
 
-    prompt = "\n".join(
-        f"{idx}. {name}"
-        for idx, name in enumerate(valid_formats)
-    )
+    prompt = "\n".join(f"{idx}. {name}" for idx, name in enumerate(valid_formats))
 
-    choices_num_list = get_numeric_choices(prompt, num_formats)        
+    choices_num_list = get_numeric_choices(prompt, num_formats)
 
     choices_dict = {
         format_names[choice].lower(): valid_formats[format_names[int(choice)]]
@@ -100,7 +95,7 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
     """
 
     Args:
-      choices_dict: dict[str: 
+      choices_dict: dict[str:
       Any]: A dictionary with keys of the name of the format and values of that formats extension
 
     Returns:
@@ -137,6 +132,7 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
 
     return formats_and_paths
 
+
 def get_api_key() -> str:
     """Gets the users DEV API Key using the getpass module then ensures it only contains alphanumeric characters
 
@@ -163,12 +159,14 @@ def get_api_key() -> str:
         # If it does not, this will repeat
 
         if not re.match(pattern, api_key_input):
-            print("DEV API Keys only contain alphanumeric characters. Please try again.")
+            print(
+                "DEV API Keys only contain alphanumeric characters. Please try again."
+            )
             continue
 
         return api_key_input
 
-                   
+
 def ask_for_variables() -> dict[str, Any]:
     """Asks the users for important variables that will determine the rest of the script
 
@@ -176,7 +174,7 @@ def ask_for_variables() -> dict[str, Any]:
       dict[str, Any]: A dictionary with keys of the setting name and values of the users choice
     """
     formats_and_paths = get_formats_and_paths()
-    
+
     val = input("Followers to pull in each GET request (default is 1000): ")
     per_page = int(val) if val.isdigit() else 1000
 

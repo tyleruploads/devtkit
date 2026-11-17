@@ -11,6 +11,7 @@ from exporters import save_files
 
 __version__ = "0.1.2.dev0"
 
+
 def main() -> None:
     """Orchestrates the follower export process
 
@@ -33,6 +34,7 @@ def main() -> None:
         return
 
     save_files(followers_list, formats_and_paths, self_info)
+
 
 if __name__ == "__main__":
     main()

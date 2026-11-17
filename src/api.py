@@ -9,7 +9,8 @@ import time
 from typing import Any  # To help return hints
 import requests
 
-FOLLOWERS_URL = "https://dev.to/api/followers/users"# Global configuration
+FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
+
 
 def get_followers(api_key: str, per_page: int) -> list[dict[str, Any]]:
     """Retrieves all of a users followers from the DEV API throughout multiple pages if necessary
@@ -85,7 +86,7 @@ def get_followers(api_key: str, per_page: int) -> list[dict[str, Any]]:
 
             # Check if the user has no followers,
             # which would be true if this is the first page.
-            if (loop_count == 1):
+            if loop_count == 1:
                 # Tell the user there are no followers
                 # and how that will be reflected in the output
                 print(
@@ -100,8 +101,8 @@ def get_profile_info(profile_id: str | int, api_key: str) -> dict[str, Any]:
     """Retreieves information about the users profile from the DEV API
 
     Args:
-      profile_id: str | int: 
-      api_key: str: 
+      profile_id: str | int:
+      api_key: str:
 
     Returns:
       dict[str, Any]: A dictionary containing information about the users profile

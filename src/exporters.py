@@ -11,6 +11,7 @@ import json  # To save the followers table to JSON
 from datetime import datetime
 from typing import Any  # To help return hints
 
+
 def md_header() -> str:
     """Makes the header for a Markdown output
 
@@ -25,11 +26,12 @@ def md_header() -> str:
 > It is not limited to Markdown files; it supports Markdown, JSON, and CSV exports
 """
 
+
 def md_profile_table(user_info: dict[str, Any]) -> str:
     """Makes the profile table for the users account in a Markdown output
 
     Args:
-      user_info: dict[str: 
+      user_info: dict[str:
       Any]: The information about the user to be put in the table
 
     Returns:
@@ -40,19 +42,16 @@ def md_profile_table(user_info: dict[str, Any]) -> str:
         f"| Attribute | Details |\n"
         f"| :--- | :--- |\n"
         f"| **Name** | {user_info['name']} |\n"
-
         f"| **Username** | [{user_info['username']}]"
         f"(https://dev.to/{user_info['username']}) |\n"
-
         f"| Summary | {user_info['summary']} |\n"
         f"| Location | {user_info['location']} |\n"
         f"| Joined At | {user_info['joined_at']} |\n"
-
         f"| User ID | [{user_info['id']}]"
         f"(https://dev.to/api/users/{user_info['id']}) |\n"
-
         f"| **Profile Picture** | <img src='{user_info['profile_image']}' width='100' alt='Profile'>  |\n"
     )
+
 
 def md_info_block(followers_list: list[dict]) -> str:
     """Makes the info block in a Markdown output
@@ -78,6 +77,7 @@ def md_info_block(followers_list: list[dict]) -> str:
         f"> This was generated on {formatted_date}  \n"
         f"> {follower_count} followers were found  \n\n"
     )
+
 
 def md_followers_table(followers_list: list[dict]) -> str:
     """Makes the table of all the users followers in a Markdown output
@@ -121,12 +121,13 @@ def md_followers_table(followers_list: list[dict]) -> str:
 
     return users_md_part
 
+
 def md_make(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     """Makes a Markdown string
 
     Args:
       followers_list: list[dict]: A list of dictionaries containing information about the users followers
-      self_info: dict[str: 
+      self_info: dict[str:
       Any]: A dictionary containing information about the user
 
     Returns:
@@ -139,14 +140,19 @@ def md_make(followers_list: list[dict], self_info: dict[str, Any]) -> str:
     md_string += md_followers_table(followers_list)
     return md_string
 
-def save_files(followers_list: list[dict], formats_and_paths: dict[str, str], self_info: dict[str, Any]=None) -> None:
+
+def save_files(
+    followers_list: list[dict],
+    formats_and_paths: dict[str, str],
+    self_info: dict[str, Any] = None,
+) -> None:
     """Saves files at specified locations in Markdown, JSON, or CSV outputs
 
     Args:
       followers_list: list[dict]: A list of dictionaries containing information about the users followers
-      formats_and_paths: dict[str: 
+      formats_and_paths: dict[str:
       str]: A list of file formats and its associated save path
-      self_info: dict[str: 
+      self_info: dict[str:
       Any]:  (Default value = None): A dictionary of information about the user
     """
     for mode, path in formats_and_paths.items():
