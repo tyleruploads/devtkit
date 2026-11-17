@@ -7,7 +7,7 @@ on:
 
 jobs:
   pypi-publish:
-    name: Upload release to PyPI
+    name: Upload release to PyPI and make GitHub Release
     runs-on: ubuntu-latest
 
     environment:
@@ -16,7 +16,8 @@ jobs:
 
     permissions:
       id-token: write
-      contents: read
+      attestations: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -41,3 +42,9 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-path: 'dist/*'
+
+      - name: Publish to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: 'dist/*'
+          generate_release_notes: true
