@@ -13,7 +13,7 @@ from ui import (
 )
 from exporters import save_files
 
-__version__ = "0.1.2.dev0"
+__version__ = "0.2.0"
 
 
 def main() -> None:
