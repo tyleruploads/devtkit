@@ -257,3 +257,9 @@ $RECYCLE.BIN/
 *.swo
 *.tmp
 .pyproject.toml.sw*
+
+# Automatically generated program outputs
+
+devtkit.md
+devtkit.csv
+devtkit.json
