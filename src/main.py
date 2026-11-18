@@ -29,11 +29,10 @@ def main() -> None:
         variables = ask_for_variables_for_followers_path()
 
         api_key = variables["api_key"]
-        per_page = variables["per_page"]
         formats_and_paths = variables["formats_and_paths"]
 
         self_info = get_profile_info(api_key, "API Key")
-        followers_list = get_followers(api_key, per_page)
+        followers_list = get_followers(api_key)
 
         # Exit if there are no followers
         if not followers_list:
