@@ -202,14 +202,10 @@ def ask_for_variables_for_followers_path() -> dict[str, Any]:
     """
     formats_and_paths = get_formats_and_paths()
 
-    val = input("Followers to pull in each GET request (default is 1000): ")
-    per_page = int(val) if val.isdigit() else 1000
-
     api_key = get_api_key()
 
     return {
         "api_key": api_key,
-        "per_page": per_page,
         "formats_and_paths": formats_and_paths,
     }
 
