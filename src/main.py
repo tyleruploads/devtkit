@@ -44,10 +44,10 @@ def main() -> None:
     elif top_level_choice == "Export Articles":
         username = ask_for_username()
 
+        formats_and_paths = get_formats_and_paths()
+
         self_info = get_profile_info(username)
         articles = get_all_articles_contents(username)
-
-        formats_and_paths = get_formats_and_paths()
 
         save_files(articles, formats_and_paths, self_info, "Articles")
 

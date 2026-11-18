@@ -12,7 +12,10 @@ import requests
 
 FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
 
-def get_api_response(url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None) -> list[dict[Any, Any]]:
+
+def get_api_response(
+    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None
+) -> list[dict[Any, Any]]:
     if not headers:
         headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -21,19 +24,21 @@ def get_api_response(url: str, headers: dict[str, Any] = None, params: dict[str,
 
     response = []
 
-    console = Console(stderr=True)
+    console = Console(stderr=True, log_time=False)
 
     while True:
         response = requests.get(url, headers=headers, params=params)
 
         if response.status_code == 429:
             wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
+            console.log(f"[bold]Waiting for {wait_time} seconds due to HTTP 429")
             time.sleep(wait_time)
             continue
         elif response.status_code == 200:
             # Success
             return response.json()
         raise Exception("Error: ", response.txt)
+
 
 def get_full_paginated_api_response(
     url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None
@@ -61,7 +66,7 @@ def get_full_paginated_api_response(
 
     loop_count = 0
 
-    console = Console(stderr=True)
+    console = Console(stderr=True, log_time=False)
 
     with console.status("[bold cyan]Connecting to API...", spinner="dots") as status:
         while True:
@@ -157,6 +162,26 @@ def validate_username(username: str) -> bool:
                 return False
             return True
         raise Exception("Error: ", response.text)
+
+
+def validate_articles_published(username: str) -> bool:
+    """Validates if a user has published any articles
+
+    Args:
+      username: str: The username to perform the check on
+
+    Returns:
+      bool: If the user has published any articles
+    """
+
+    url = f"https://dev.to/api/articles?username={username}&per_page=1"
+
+    response = get_api_response(url)
+
+    if not response:
+        return False
+
+    return True
 
 
 def get_profile_info(username_or_key: str, type="Username") -> dict[str, Any]:

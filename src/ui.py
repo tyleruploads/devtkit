@@ -10,7 +10,7 @@ import os  # Assists with saving
 import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
 from rich.console import Console
-from api import validate_username
+from api import validate_username, validate_articles_published
 
 console = Console(stderr=True, log_time=False)
 
@@ -239,9 +239,12 @@ def ask_for_username() -> str:
             console.log("[bold red]Please enter a username.\n")
             continue
 
-        valid = validate_username(username)
+        valid = validate_username(username) and validate_articles_published(username)
 
         if not valid:
+            console.log(
+                "[bold red]The username does not correspond to a real DEV.to account, or the user has not published any articles. Please try again."
+            )
             continue
 
         return username
