@@ -223,6 +223,13 @@ def get_follower_path_variables() -> dict[str, Any]:
     }
 
 
+def safe_validate(func, arg):
+    try:
+        return bool(func(arg))
+    except Exception:
+        return False
+
+
 def ask_for_username() -> str:
     """Asks the user for the username of the account whose articles will be exported
 
@@ -240,6 +247,10 @@ def ask_for_username() -> str:
             continue
 
         valid = validate_username(username) and validate_articles_published(username)
+
+        valid = safe_validate(validate_username, username) and safe_validate(
+            validate_articles_published, username
+        )
 
         if not valid:
             console.log(

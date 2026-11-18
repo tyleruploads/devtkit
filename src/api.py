@@ -37,7 +37,7 @@ def get_api_response(
         elif response.status_code == 200:
             # Success
             return response.json()
-        raise Exception("Error: ", response.txt)
+        raise Exception("Error: ", response.text)
 
 
 def get_full_paginated_api_response(
@@ -145,23 +145,24 @@ def validate_username(username: str) -> bool:
 
     params = {"url": username}
 
-    while True:
-        response = requests.get(url, headers=headers, params=params)
+    try:
+        data = get_api_response(url, headers, params)
 
-        if response.status_code == 429:
-            wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-            print(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
-            time.sleep(wait_time)
-            continue
-        if response.status_code == 200:
-            # Success
-
-            data = response.json()
-
-            if not data or data.get("error"):
-                return False
+        if data and not data.get("error"):
             return True
-        raise Exception("Error: ", response.text)
+    except Exception:
+        pass
+
+    url = f"https://dev.to/api/organizations/{username}"
+
+    try:
+        data = get_api_response(url)
+
+        if not data or data.get("error"):
+            return False
+    except Exception:
+        return False
+    return True
 
 
 def validate_articles_published(username: str) -> bool:
@@ -204,14 +205,25 @@ def get_profile_info(username_or_key: str, type="Username") -> dict[str, Any]:
         profile_info_url = "https://dev.to/api/users/me"
         headers["api-key"] = username_or_key
 
-    response = requests.get(profile_info_url, headers=headers)
+    try:
+        data = get_api_response(profile_info_url, headers)
 
-    if response.status_code == 200:
-        # Success
-        return response.json()  # The profile information
+        if data and not data.get("error"):
+            return data
+    except Exception:
+        pass
 
-    # Error
-    raise Exception("Error: ", response.text)
+    profile_info_url = f"https://dev.to/api/organizations/{username_or_key}"
+
+    try:
+        data = get_api_response(profile_info_url)
+
+        if data and not data.get("error"):
+            return data
+    except Exception:
+        pass
+
+    raise Exception("Username does not exist or key is invalid")
 
 
 def get_published_articles(username: str) -> list[int]:
