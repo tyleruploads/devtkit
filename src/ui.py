@@ -194,7 +194,7 @@ def get_api_key() -> str:
         return api_key_input
 
 
-def ask_for_variables_for_followers_path() -> dict[str, Any]:
+def get_follower_path_variables() -> dict[str, Any]:
     """Asks the users for important variables involving the follower export path that will determine the rest of the script
 
     Returns:

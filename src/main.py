@@ -6,7 +6,7 @@
 from api import get_followers, get_profile_info, get_all_articles_contents
 from ui import (
     welcome_banner,
-    ask_for_variables_for_followers_path,
+    get_follower_path_variables,
     get_top_level_choice,
     ask_for_username,
     get_formats_and_paths,
@@ -26,7 +26,7 @@ def main() -> None:
     top_level_choice = get_top_level_choice()
 
     if top_level_choice == "Export Followers":
-        variables = ask_for_variables_for_followers_path()
+        variables = get_follower_path_variables()
 
         api_key = variables["api_key"]
         formats_and_paths = variables["formats_and_paths"]
