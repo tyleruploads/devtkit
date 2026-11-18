@@ -17,7 +17,7 @@ __version__ = "0.2.0"
 
 
 def main() -> None:
-    """Orchestrates the follower export process
+    """Orchestrates the follower export process.
 
     This function calls many other functions in order to export the users followers in the DEV community
     """
@@ -36,7 +36,6 @@ def main() -> None:
 
         # Exit if there are no followers
         if not followers_list:
-            print("\n[!] Exiting: No followers to export.")
             return
 
         save_files(followers_list, formats_and_paths, self_info)
@@ -52,8 +51,9 @@ def main() -> None:
         save_files(articles, formats_and_paths, self_info, "Articles")
 
     else:
+        msg = f"Error: Choice returned by get_top_level_choice(), {top_level_choice}, is invalid."
         raise Exception(
-            f"Error: Choice returned by get_top_level_choice(), {top_level_choice}, is invalid.",
+            msg,
         )
 
 

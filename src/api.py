@@ -1,5 +1,5 @@
 """api.py
-_____
+_____.
 
 This file contains functions that interact with the DEV.to API with the requests module.
 """
@@ -14,7 +14,9 @@ FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
 
 
 def get_api_response(
-    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None,
+    url: str,
+    headers: dict[str, Any] | None = None,
+    params: dict[str, Any] | None = None,
 ) -> list[dict[Any, Any]]:
     if not headers:
         headers = {"User-Agent": "Mozilla/5.0"}
@@ -37,13 +39,16 @@ def get_api_response(
         if response.status_code == 200:
             # Success
             return response.json()
-        raise Exception("Error: ", response.text)
+        msg = "Error: "
+        raise Exception(msg, response.text)
 
 
 def get_full_paginated_api_response(
-    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None,
+    url: str,
+    headers: dict[str, Any] | None = None,
+    params: dict[str, Any] | None = None,
 ) -> list[dict[Any, Any]]:
-    """Safely iterates over a paginated API to retreive the full output
+    """Safely iterates over a paginated API to retreive the full output.
 
     Args:
       url: str: The API Endpoint
@@ -97,7 +102,7 @@ def get_full_paginated_api_response(
 
 
 def get_followers(api_key: str) -> list[dict[str, Any]]:
-    """Retrieves all of a users followers from the DEV API throughout multiple pages if necessary
+    """Retrieves all of a users followers from the DEV API throughout multiple pages if necessary.
 
     Args:
       api_key: str: The authentication key for the DEV API
@@ -120,15 +125,15 @@ def get_followers(api_key: str) -> list[dict[str, Any]]:
         "page": 1,
     }
 
-    response = get_full_paginated_api_response(
-        FOLLOWERS_URL, headers=headers, params=params,
+    return get_full_paginated_api_response(
+        FOLLOWERS_URL,
+        headers=headers,
+        params=params,
     )
-
-    return response
 
 
 def validate_username(username: str) -> bool:
-    """Determines if username exists on DEV.to with API
+    """Determines if username exists on DEV.to with API.
 
     Args:
       username: str: The username to validate
@@ -167,7 +172,7 @@ def validate_username(username: str) -> bool:
 
 
 def validate_articles_published(username: str) -> bool:
-    """Validates if a user has published any articles
+    """Validates if a user has published any articles.
 
     Args:
       username: str: The username to perform the check on
@@ -178,16 +183,11 @@ def validate_articles_published(username: str) -> bool:
     """
     url = f"https://dev.to/api/articles?username={username}&per_page=1"
 
-    response = get_api_response(url)
-
-    if not response:
-        return False
-
-    return True
+    return get_api_response(url)
 
 
 def get_profile_info(username_or_key: str, type="Username") -> dict[str, Any]:
-    """Retreieves information about the users profile from the DEV API
+    """Retreieves information about the users profile from the DEV API.
 
     Args:
       username: str
@@ -224,7 +224,8 @@ def get_profile_info(username_or_key: str, type="Username") -> dict[str, Any]:
     except Exception:
         pass
 
-    raise Exception("Username does not exist or key is invalid")
+    msg = "Username does not exist or key is invalid"
+    raise Exception(msg)
 
 
 def get_published_articles(username: str) -> list[int]:
@@ -233,7 +234,8 @@ def get_published_articles(username: str) -> list[int]:
     articles = get_full_paginated_api_response(articles_url)
 
     if not articles:
-        raise ValueError(f"User {username} has not published any articles.")
+        msg = f"User {username} has not published any articles."
+        raise ValueError(msg)
 
     article_ids = []
 
@@ -255,13 +257,13 @@ def get_article(article_id: int) -> dict[str, Any]:
 
         if response.status_code == 429:
             wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-            print(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
             time.sleep(wait_time)
             continue
         if response.status_code == 200:
             # Success
             break
-        raise Exception("Error: ", response.text)
+        msg = "Error: "
+        raise Exception(msg, response.text)
 
     return response.json()
 

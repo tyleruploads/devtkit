@@ -1,4 +1,4 @@
-"""ui.py
+"""ui.py.
 -----
 
 This file contains functions that are in the user interface level (ex: getting paths, showing banners, asking for selections, etc)
@@ -17,7 +17,7 @@ console = Console(stderr=True, log_time=False)
 
 
 def welcome_banner(__version__) -> None:
-    """Prints the welcome banner and security notice
+    """Prints the welcome banner and security notice.
 
     Args:
       version (str): The current version of the application
@@ -48,7 +48,7 @@ they havecompromised your account.[/]
 
 
 def get_top_level_choice() -> str:
-    """Prompts the user if they would like to export followers or articles
+    """Prompts the user if they would like to export followers or articles.
 
     Returns:
       str: The choice the user makes
@@ -76,7 +76,7 @@ def get_top_level_choice() -> str:
 
 
 def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
-    """Prompts the user for a sequence of numbers after displaying and validates their choices
+    """Prompts the user for a sequence of numbers after displaying and validates their choices.
 
     Args:
       prompt: str: The prompt to tell the users that should contain their available choices
@@ -109,7 +109,7 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
 
 
 def get_formats_and_paths() -> dict[str, str]:
-    """Retrieves file formats and save paths from the user
+    """Retrieves file formats and save paths from the user.
 
     Returns:
       dict[str, str]: A dictionary of the file formats and associated save paths
@@ -136,7 +136,7 @@ def get_formats_and_paths() -> dict[str, str]:
 def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
     """Args:
       choices_dict: dict[str:
-      Any]: A dictionary with keys of the name of the format and values of that formats extension
+      Any]: A dictionary with keys of the name of the format and values of that formats extension.
 
     Returns:
       dict[str, str]: A dictionary with keys of the format name and paths of its path
@@ -175,7 +175,7 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
 
 
 def get_api_key() -> str:
-    """Gets the users DEV API Key using the getpass module then ensures it only contains alphanumeric characters
+    """Gets the users DEV API Key using the getpass module then ensures it only contains alphanumeric characters.
 
     Returns:
       str: The users DEV API Key
@@ -211,7 +211,7 @@ def get_api_key() -> str:
 
 
 def get_follower_path_variables() -> dict[str, Any]:
-    """Asks the users for important variables involving the follower export path that will determine the rest of the script
+    """Asks the users for important variables involving the follower export path that will determine the rest of the script.
 
     Returns:
       dict[str, Any]: A dictionary with keys of the setting name and values of the users choice
@@ -235,7 +235,7 @@ def safe_validate(func, arg):
 
 
 def ask_for_username() -> str:
-    """Asks the user for the username of the account whose articles will be exported
+    """Asks the user for the username of the account whose articles will be exported.
 
     Returns:
       str: The username
@@ -253,7 +253,8 @@ def ask_for_username() -> str:
         valid = validate_username(username) and validate_articles_published(username)
 
         valid = safe_validate(validate_username, username) and safe_validate(
-            validate_articles_published, username,
+            validate_articles_published,
+            username,
         )
 
         if not valid:
