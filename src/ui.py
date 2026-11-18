@@ -14,6 +14,7 @@ from api import validate_username
 
 console = Console(stderr=True, log_time=False)
 
+
 def welcome_banner(__version__) -> None:
     """Prints the welcome banner and security notice
 
@@ -65,7 +66,9 @@ def get_top_level_choice() -> str:
             continue
 
         if not str(choice).isdigit() or int(choice) > 2:
-            console.log("[bold red]You have made an invalid selection. Please try again.\n")
+            console.log(
+                "[bold red]You have made an invalid selection. Please try again.\n"
+            )
             continue
         return choices[int(choice)]
 
@@ -95,7 +98,9 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
 
         # Check if there are any invalid choices
         if any(not str(x).isdigit() or int(x) >= choices_num for x in choices_num_list):
-            console.log("[bold red]You have made an invalid selection. Please try again.\n")
+            console.log(
+                "[bold red]You have made an invalid selection. Please try again.\n"
+            )
             continue
         return [int(x) for x in choices_num_list]
 
@@ -176,7 +181,9 @@ def get_api_key() -> str:
     # The purpose of this function is to ensure a user does not accidentally enter something other than their API Key
 
     while True:
-        console.log("[orange1]To get an API Key, go to: DEV.to -> Settings -> Extensions")
+        console.log(
+            "[orange1]To get an API Key, go to: DEV.to -> Settings -> Extensions"
+        )
         api_key_input = getpass.getpass("DEV.to API Key: ").strip()
 
         # Verify they didn't just enter nothing
@@ -224,7 +231,9 @@ def ask_for_username() -> str:
     """
 
     while True:
-        username = console.input("[orange1]Username of account to export articles of: ").strip()
+        username = console.input(
+            "[orange1]Username of account to export articles of: "
+        ).strip()
 
         if not username:
             console.log("[bold red]Please enter a username.\n")

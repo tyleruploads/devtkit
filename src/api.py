@@ -53,7 +53,9 @@ def get_full_paginated_api_response(
 
                 if response.status_code == 429:
                     wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-                    status.update(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
+                    status.update(
+                        f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s"
+                    )
                     time.sleep(wait_time)
                     continue
                 if response.status_code == 200:
