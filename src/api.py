@@ -12,6 +12,28 @@ import requests
 
 FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
 
+def get_api_response(url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None) -> list[dict[Any, Any]]:
+    if not headers:
+        headers = {"User-Agent": "Mozilla/5.0"}
+
+    if not params:
+        params = {"per_page": 1000, "page": 1}
+
+    response = []
+
+    console = Console(stderr=True)
+
+    while True:
+        response = requests.get(url, headers=headers, params=params)
+
+        if response.status_code == 429:
+            wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
+            time.sleep(wait_time)
+            continue
+        elif response.status_code == 200:
+            # Success
+            return response.json()
+        raise Exception("Error: ", response.txt)
 
 def get_full_paginated_api_response(
     url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None
@@ -48,23 +70,7 @@ def get_full_paginated_api_response(
 
             status.update(f"[bold cyan]Fetching page {loop_count}")
 
-            while True:
-                response = requests.get(url, headers=headers, params=params)
-
-                if response.status_code == 429:
-                    wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-                    status.update(
-                        f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s"
-                    )
-                    time.sleep(wait_time)
-                    continue
-                if response.status_code == 200:
-                    # Success
-                    time.sleep(1)
-                    break
-                raise Exception("Error: ", response.text)
-
-            page_response_dicts = response.json()
+            page_response_dicts = get_api_response(url, headers, params)
 
             if len(page_response_dicts) >= 1:
                 response_dicts += page_response_dicts
