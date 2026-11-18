@@ -85,6 +85,10 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
             "following options you would like to select: ",
         ).strip()
 
+        if not choices_str:
+            print("Please make a selection.")
+            continue
+
         choices_num_list = list(choices_str)
 
         # Check if there are any invalid choices
