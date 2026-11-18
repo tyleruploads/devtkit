@@ -3,15 +3,15 @@
 
 
 # --- Local Imports, Alphabetical ---
-from api import get_followers, get_profile_info, get_all_articles_contents
-from ui import (
-    welcome_banner,
-    get_follower_path_variables,
-    get_top_level_choice,
-    ask_for_username,
-    get_formats_and_paths,
-)
+from api import get_all_articles_contents, get_followers, get_profile_info
 from exporters import save_files
+from ui import (
+    ask_for_username,
+    get_follower_path_variables,
+    get_formats_and_paths,
+    get_top_level_choice,
+    welcome_banner,
+)
 
 __version__ = "0.2.0"
 
@@ -53,7 +53,7 @@ def main() -> None:
 
     else:
         raise Exception(
-            f"Error: Choice returned by get_top_level_choice(), {top_level_choice}, is invalid."
+            f"Error: Choice returned by get_top_level_choice(), {top_level_choice}, is invalid.",
         )
 
 

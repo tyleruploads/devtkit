@@ -1,5 +1,4 @@
-"""
-ui.py
+"""ui.py
 -----
 
 This file contains functions that are in the user interface level (ex: getting paths, showing banners, asking for selections, etc)
@@ -9,8 +8,10 @@ import getpass  # To get the API key securely
 import os  # Assists with saving
 import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
+
 from rich.console import Console
-from api import validate_username, validate_articles_published
+
+from api import validate_articles_published, validate_username
 
 console = Console(stderr=True, log_time=False)
 
@@ -20,6 +21,7 @@ def welcome_banner(__version__) -> None:
 
     Args:
       version (str): The current version of the application
+
     """
     banner = f"""
 [blue]=================================================================[/]
@@ -50,15 +52,15 @@ def get_top_level_choice() -> str:
 
     Returns:
       str: The choice the user makes
-    """
 
+    """
     choices = ["Export Followers", "Export Articles"]
 
     console.log("[purple]----- Options -----")
     console.log("\n".join(f"[bold]{idx}. {name}" for idx, name in enumerate(choices)))
     while True:
         choice = console.input(
-            "[orange1]Please enter the number for the option you would like to select: "
+            "[orange1]Please enter the number for the option you would like to select: ",
         ).strip()
 
         if len(choice) > 1:
@@ -67,7 +69,7 @@ def get_top_level_choice() -> str:
 
         if not str(choice).isdigit() or int(choice) > 2:
             console.log(
-                "[bold red]You have made an invalid selection. Please try again.\n"
+                "[bold red]You have made an invalid selection. Please try again.\n",
             )
             continue
         return choices[int(choice)]
@@ -82,6 +84,7 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
 
     Returns:
       list[int]: A list of integers that the user selected
+
     """
     while True:
         console.log(prompt, "\n")
@@ -99,7 +102,7 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
         # Check if there are any invalid choices
         if any(not str(x).isdigit() or int(x) >= choices_num for x in choices_num_list):
             console.log(
-                "[bold red]You have made an invalid selection. Please try again.\n"
+                "[bold red]You have made an invalid selection. Please try again.\n",
             )
             continue
         return [int(x) for x in choices_num_list]
@@ -110,6 +113,7 @@ def get_formats_and_paths() -> dict[str, str]:
 
     Returns:
       dict[str, str]: A dictionary of the file formats and associated save paths
+
     """
     valid_formats = {"Markdown": ".md", "CSV": ".csv", "JSON": ".json"}
     format_names = list(valid_formats.keys())
@@ -130,14 +134,13 @@ def get_formats_and_paths() -> dict[str, str]:
 
 
 def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
-    """
-
-    Args:
+    """Args:
       choices_dict: dict[str:
       Any]: A dictionary with keys of the name of the format and values of that formats extension
 
     Returns:
       dict[str, str]: A dictionary with keys of the format name and paths of its path
+
     """
     formats_and_paths = {}
 
@@ -182,7 +185,7 @@ def get_api_key() -> str:
 
     while True:
         console.log(
-            "[orange1]To get an API Key, go to: DEV.to -> Settings -> Extensions"
+            "[orange1]To get an API Key, go to: DEV.to -> Settings -> Extensions",
         )
         api_key_input = getpass.getpass("DEV.to API Key: ").strip()
 
@@ -200,7 +203,7 @@ def get_api_key() -> str:
 
         if not re.match(pattern, api_key_input):
             console.log(
-                "[bold red]DEV API Keys only contain alphanumeric characters. Please try again."
+                "[bold red]DEV API Keys only contain alphanumeric characters. Please try again.",
             )
             continue
 
@@ -212,6 +215,7 @@ def get_follower_path_variables() -> dict[str, Any]:
 
     Returns:
       dict[str, Any]: A dictionary with keys of the setting name and values of the users choice
+
     """
     formats_and_paths = get_formats_and_paths()
 
@@ -235,11 +239,11 @@ def ask_for_username() -> str:
 
     Returns:
       str: The username
-    """
 
+    """
     while True:
         username = console.input(
-            "[orange1]Username of account to export articles of: "
+            "[orange1]Username of account to export articles of: ",
         ).strip()
 
         if not username:
@@ -249,12 +253,12 @@ def ask_for_username() -> str:
         valid = validate_username(username) and validate_articles_published(username)
 
         valid = safe_validate(validate_username, username) and safe_validate(
-            validate_articles_published, username
+            validate_articles_published, username,
         )
 
         if not valid:
             console.log(
-                "[bold red]The username does not correspond to a real DEV.to account, or the user has not published any articles. Please try again."
+                "[bold red]The username does not correspond to a real DEV.to account, or the user has not published any articles. Please try again.",
             )
             continue
 

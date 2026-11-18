@@ -1,5 +1,4 @@
-"""
-exporters.py
+"""exporters.py
 -----
 
 This file contains functions that convert and export raw information into file outputs.
@@ -7,7 +6,6 @@ This file contains functions that convert and export raw information into file o
 
 import csv  # To save the followers table to CSV
 import json  # To save the followers table to JSON
-
 from datetime import datetime
 from typing import Any  # To help return hints
 
@@ -17,6 +15,7 @@ def md_header() -> str:
 
     Returns:
       str: The Markdown string for the header
+
     """
     # Makes the header for the top of the markdown file
     # This does not require any variables passed
@@ -36,6 +35,7 @@ def md_profile_table(user_info: dict[str, Any]) -> str:
 
     Returns:
           str: The Markdown string for the profile table
+
     """
     return (
         f"### Profile: {user_info['name']}\n\n"
@@ -61,6 +61,7 @@ def generate_followers_info_block(followers_list: list[dict]) -> str:
 
     Returns:
       str: The Markdown string for the information block
+
     """
     # This makes a block to put in the Markdown output
     # This block contains information such as the date and follower count
@@ -87,6 +88,7 @@ def md_followers_table(followers_list: list[dict]) -> str:
 
     Returns:
       str: The Markdown string for the followers table
+
     """
     # Check if the user has no followers
     if len(followers_list) == 0:
@@ -123,7 +125,7 @@ def md_followers_table(followers_list: list[dict]) -> str:
 
 
 def generate_followers_output(
-    followers_list: list[dict], self_info: dict[str, Any]
+    followers_list: list[dict], self_info: dict[str, Any],
 ) -> str:
     """Makes a Markdown string
 
@@ -134,6 +136,7 @@ def generate_followers_output(
 
     Returns:
       str: The entire Markdown string
+
     """
     md_string = ""
     md_string += md_header()
@@ -151,6 +154,7 @@ def generate_articles_info_block(articles: list[dict]) -> str:
 
     Returns:
       str: The Markdown string for the information block
+
     """
     # This makes a block to put in the Markdown output
     # This block contains information such as the date and follower count
@@ -210,6 +214,7 @@ def save_files(
       str]: A list of file formats and its associated save path
       self_info: dict[str:
       Any]:  (Default value = None): A dictionary of information about the user
+
     """
     for mode, path in formats_and_paths.items():
         if mode == "markdown":

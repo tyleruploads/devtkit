@@ -1,5 +1,4 @@
-"""
-api.py
+"""api.py
 _____
 
 This file contains functions that interact with the DEV.to API with the requests module.
@@ -7,14 +6,15 @@ This file contains functions that interact with the DEV.to API with the requests
 
 import time
 from typing import Any  # To help return hints
-from rich.console import Console
+
 import requests
+from rich.console import Console
 
 FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
 
 
 def get_api_response(
-    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None
+    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None,
 ) -> list[dict[Any, Any]]:
     if not headers:
         headers = {"User-Agent": "Mozilla/5.0"}
@@ -34,14 +34,14 @@ def get_api_response(
             console.log(f"[bold]Waiting for {wait_time} seconds due to HTTP 429")
             time.sleep(wait_time)
             continue
-        elif response.status_code == 200:
+        if response.status_code == 200:
             # Success
             return response.json()
         raise Exception("Error: ", response.text)
 
 
 def get_full_paginated_api_response(
-    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None
+    url: str, headers: dict[str, Any] = None, params: dict[str, Any] = None,
 ) -> list[dict[Any, Any]]:
     """Safely iterates over a paginated API to retreive the full output
 
@@ -54,8 +54,8 @@ def get_full_paginated_api_response(
 
     Raises:
       Exception: If the API responds with a non-200 HTTP status code (excluding 429)
-    """
 
+    """
     if not headers:
         headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -81,12 +81,12 @@ def get_full_paginated_api_response(
                 response_dicts += page_response_dicts
                 console.log(
                     f"{len(page_response_dicts)} dictionaries have been pulled on page {loop_count}. "
-                    f"{len(response_dicts)} total dictionaries have been found so far."
+                    f"{len(response_dicts)} total dictionaries have been found so far.",
                 )
             else:
                 console.log(
                     f"0 dictionaries pulled on page {loop_count}. "
-                    f"{len(response_dicts)} total dictionaries found. \n"
+                    f"{len(response_dicts)} total dictionaries found. \n",
                 )
 
                 if loop_count == 1:
@@ -108,6 +108,7 @@ def get_followers(api_key: str) -> list[dict[str, Any]]:
 
     Raises:
       Exception: If the API responds with a non-200 HTTP status code (excluding 429)
+
     """
     headers = {
         "api-key": api_key,
@@ -120,7 +121,7 @@ def get_followers(api_key: str) -> list[dict[str, Any]]:
     }
 
     response = get_full_paginated_api_response(
-        FOLLOWERS_URL, headers=headers, params=params
+        FOLLOWERS_URL, headers=headers, params=params,
     )
 
     return response
@@ -137,8 +138,8 @@ def validate_username(username: str) -> bool:
 
     Raises:
       Exception: If an unexpected API output occurrs
-    """
 
+    """
     url = "https://dev.to/api/users/by_username"
 
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -173,8 +174,8 @@ def validate_articles_published(username: str) -> bool:
 
     Returns:
       bool: If the user has published any articles
-    """
 
+    """
     url = f"https://dev.to/api/articles?username={username}&per_page=1"
 
     response = get_api_response(url)
@@ -193,8 +194,8 @@ def get_profile_info(username_or_key: str, type="Username") -> dict[str, Any]:
 
     Returns:
       dict[str, Any]: A dictionary containing information about the users profile
-    """
 
+    """
     headers = {
         "User-Agent": "Mozilla/5.0",
     }
