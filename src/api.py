@@ -7,6 +7,7 @@ This file contains functions that interact with the DEV.to API with the requests
 
 import time
 from typing import Any  # To help return hints
+from rich.console import Console
 import requests
 
 FOLLOWERS_URL = "https://dev.to/api/followers/users"  # Global configuration
@@ -37,41 +38,47 @@ def get_full_paginated_api_response(
     response_dicts = []
 
     loop_count = 0
-    while True:
-        loop_count += 1
-        params["page"] = loop_count
 
+    console = Console(stderr=True)
+
+    with console.status("[bold cyan]Connecting to API...", spinner="dots") as status:
         while True:
-            response = requests.get(url, headers=headers, params=params)
+            loop_count += 1
+            params["page"] = loop_count
 
-            if response.status_code == 429:
-                wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
-                print(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
-                time.sleep(wait_time)
-                continue
-            if response.status_code == 200:
-                # Success
-                time.sleep(1)
+            status.update(f"[bold cyan]Fetching page {loop_count}")
+
+            while True:
+                response = requests.get(url, headers=headers, params=params)
+
+                if response.status_code == 429:
+                    wait_time = float(response.headers.get("Retry-After", 1)) + 0.5
+                    status.update(f"HTTP 429 Too Many Requests. Sleeping for {wait_time}s")
+                    time.sleep(wait_time)
+                    continue
+                if response.status_code == 200:
+                    # Success
+                    time.sleep(1)
+                    break
+                raise Exception("Error: ", response.text)
+
+            page_response_dicts = response.json()
+
+            if len(page_response_dicts) >= 1:
+                response_dicts += page_response_dicts
+                console.log(
+                    f"{len(page_response_dicts)} dictionaries have been pulled on page {loop_count}. "
+                    f"{len(response_dicts)} total dictionaries have been found so far."
+                )
+            else:
+                console.log(
+                    f"0 dictionaries pulled on page {loop_count}. "
+                    f"{len(response_dicts)} total dictionaries found. \n"
+                )
+
+                if loop_count == 1:
+                    console.log(f"The API Response for {url} is empty.")
                 break
-            raise Exception("Error: ", response.text)
-
-        page_response_dicts = response.json()
-
-        if len(page_response_dicts) >= 1:
-            response_dicts += page_response_dicts
-            print(
-                f"{len(page_response_dicts)} dictionaries have been pulled on page {loop_count}. "
-                f"{len(response_dicts)} total dictionaries have been found so far."
-            )
-        else:
-            print(
-                f"0 dictionaries pulled on page {loop_count}. "
-                f"{len(response_dicts)} total dictionaries found. \n"
-            )
-
-            if loop_count == 1:
-                print(f"The API Response for {url} is empty.")
-            break
 
     return response_dicts
 

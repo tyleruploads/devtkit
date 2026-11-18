@@ -9,8 +9,10 @@ import getpass  # To get the API key securely
 import os  # Assists with saving
 import re  # To help make sure users do not enter something other than their API Key
 from typing import Any  # To help return hints
+from rich.console import Console
 from api import validate_username
 
+console = Console(stderr=True, log_time=False)
 
 def welcome_banner(__version__) -> None:
     """Prints the welcome banner and security notice
@@ -19,27 +21,27 @@ def welcome_banner(__version__) -> None:
       version (str): The current version of the application
     """
     banner = f"""
-=================================================================
-devtkit (v{__version__})
-Repository: https://github.com/tyleruploads/devtkit
-=================================================================
+[blue]=================================================================[/]
+[orange1]devtkit (v{__version__})
+Repository: https://github.com/tyleruploads/devtkit[/]
+[blue]=================================================================[/]
 
-This script will fetch information about you and your followers on DEV.to
-using your API key.
+[orange1]This script will fetch information about you and your followers on DEV.to
+using your API key.[/]
 
-SECURITY NOTICE:
+[green]SECURITY NOTICE:
 Your API key acts like a password.
 If an untrusted individual has access to it,
-they havecompromised your account.
+they havecompromised your account.[/]
 
-Review this file here:
+[bold]Review this file here:[/]
     https://raw.githubusercontent.com/tyleruploads/devtkit/refs/heads/main/src/main.py
 
 
-**************************************************************
+[red]**************************************************************[/]
 """
 
-    print(banner)
+    console.log(banner)
 
 
 def get_top_level_choice() -> str:
@@ -51,19 +53,19 @@ def get_top_level_choice() -> str:
 
     choices = ["Export Followers", "Export Articles"]
 
-    print("----- Options -----")
-    print("\n".join(f"{idx}. {name}" for idx, name in enumerate(choices)))
+    console.log("[purple]----- Options -----")
+    console.log("\n".join(f"[bold]{idx}. {name}" for idx, name in enumerate(choices)))
     while True:
-        choice = input(
-            "Please enter the number for the option you would like to select: "
+        choice = console.input(
+            "[orange1]Please enter the number for the option you would like to select: "
         ).strip()
 
         if len(choice) > 1:
-            print("Please only select one choice. Please try again.\n")
+            console.log("[bold red]Please only select one choice. Please try again.\n")
             continue
 
         if not str(choice).isdigit() or int(choice) > 2:
-            print("You have made an invalid selection. Please try again.\n")
+            console.log("[bold red]You have made an invalid selection. Please try again.\n")
             continue
         return choices[int(choice)]
 
@@ -79,21 +81,21 @@ def get_numeric_choices(prompt: str, choices_num: int) -> list[int]:
       list[int]: A list of integers that the user selected
     """
     while True:
-        print(prompt, "\n")
-        choices_str = input(
-            "Please enter the numbers for the "
+        console.log(prompt, "\n")
+        choices_str = console.input(
+            "[orange1]Please enter the numbers for the "
             "following options you would like to select: ",
         ).strip()
 
         if not choices_str:
-            print("Please make a selection.")
+            console.log("[bold red]Please make a selection.")
             continue
 
         choices_num_list = list(choices_str)
 
         # Check if there are any invalid choices
         if any(not str(x).isdigit() or int(x) >= choices_num for x in choices_num_list):
-            print("\nYou have made an invalid selection. Please try again.\n")
+            console.log("[bold red]You have made an invalid selection. Please try again.\n")
             continue
         return [int(x) for x in choices_num_list]
 
@@ -108,9 +110,9 @@ def get_formats_and_paths() -> dict[str, str]:
     format_names = list(valid_formats.keys())
     num_formats = len(valid_formats)
 
-    print("--- Formats ---\n")
+    console.log("[purple]--- Formats ---\n")
 
-    prompt = "\n".join(f"{idx}. {name}" for idx, name in enumerate(valid_formats))
+    prompt = "\n".join(f"[bold]{idx}. {name}" for idx, name in enumerate(valid_formats))
 
     choices_num_list = get_numeric_choices(prompt, num_formats)
 
@@ -134,12 +136,12 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
     """
     formats_and_paths = {}
 
-    print("--- File Save Locations ---")
+    console.log("[purple]--- File Save Locations ---")
     for format_name, format_ext in choices_dict.items():
         while True:
             default_name = f"devtkit{format_ext}"
-            path = input(
-                f"Please enter save path for {format_name.title()}"
+            path = console.input(
+                f"[orange1]Please enter save path for {format_name.title()}"
                 f" (Default: {default_name}): ",
             ).strip()
 
@@ -153,8 +155,8 @@ def ask_for_paths(choices_dict: dict[str, Any]) -> dict[str, str]:
             # Check for directories
             dirname = os.path.dirname(path)
             if dirname and not os.path.exists(dirname):
-                print(
-                    f"Directory '{dirname}' does not exist. Please try again.",
+                console.log(
+                    f"[bold red]Directory '{dirname}' does not exist. Please try again.",
                 )
                 continue
 
@@ -174,14 +176,14 @@ def get_api_key() -> str:
     # The purpose of this function is to ensure a user does not accidentally enter something other than their API Key
 
     while True:
-        print("\nTo get an API Key, go to: DEV.to -> Settings -> Extensions")
+        console.log("[orange1]To get an API Key, go to: DEV.to -> Settings -> Extensions")
         api_key_input = getpass.getpass("DEV.to API Key: ").strip()
 
         # Verify they didn't just enter nothing
         # If they enter nothing, this will repeat
 
         if not api_key_input:
-            print("You did not enter anything. Please try again.")
+            console.log("[bold red]You did not enter anything. Please try again.")
             continue
 
         pattern = r"^[a-zA-Z0-9]+$"
@@ -190,8 +192,8 @@ def get_api_key() -> str:
         # If it does not, this will repeat
 
         if not re.match(pattern, api_key_input):
-            print(
-                "DEV API Keys only contain alphanumeric characters. Please try again."
+            console.log(
+                "[bold red]DEV API Keys only contain alphanumeric characters. Please try again."
             )
             continue
 
@@ -222,10 +224,10 @@ def ask_for_username() -> str:
     """
 
     while True:
-        username = input("Username of account to export articles of: ").strip()
+        username = console.input("[orange1]Username of account to export articles of: ").strip()
 
         if not username:
-            print("Please enter a username.\n")
+            console.log("[bold red]Please enter a username.\n")
             continue
 
         valid = validate_username(username)
